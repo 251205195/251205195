@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -33,8 +34,25 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater()); //演習3
         setContentView(binding.getRoot()); //演習3
         prefDataStore = PrefDataStore.getInstance(this);
+
         prefDataStore.getString("name")
-                .ifPresent(name -> binding.day2.setText(name));
+                .ifPresent(name -> {
+                    if ("a".equals(name)) {
+                        binding.day2.setText("成功");
+                        binding.imageView.setImageResource(R.drawable.outline_boy_24);
+                    } else {
+                        binding.day2.setText(name);
+                    }
+                });
+
+//デバッグ用コード
+//        prefDataStore.getString("name")
+//                .ifPresent(name -> {
+//                    var modText = "(pref)" + name;
+//                    Log.d("meijo",modText);
+//                    binding.day2.setText(modText);
+//                        });
+
 
         binding.buttonSave.setOnClickListener(view -> {
             var text = binding.editTextText.getText().toString();
